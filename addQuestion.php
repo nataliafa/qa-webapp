@@ -18,7 +18,6 @@ if(!empty($_POST)) {
 }
 
 if(!empty($_GET)) {
-  print_r($_GET);
   if(isset($_GET['send'])) {
     $message='Ваш вопрос был отправлен';
   }
