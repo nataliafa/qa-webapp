@@ -62,7 +62,6 @@ function addAdmin($login, $password)
       ':login' => $login,
       ':password' => $password,
     ]);
-    $sth->fetchAll(PDO::FETCH_ASSOC);
   } catch(PDOException $e) {
     // echo $e->getMessage();
   }
@@ -86,21 +85,19 @@ function deleteAdmin($id)
   include ('dbconnect.php');
   $sth = $pdo->prepare("DELETE FROM `admins` WHERE id = :id LIMIT 1");
   $sth->execute([ ":id" => $id]);
-  $sth->fetchAll(PDO::FETCH_ASSOC);
   header('Location: admins.php');
 }
 
 // меняет пароль администратора в таблице admins
 function changePassword($newPassword, $id) 
 {
- include ('dbconnect.php');
- $sth = $pdo->prepare("UPDATE `admins` SET password= :password WHERE id = :id LIMIT 1");
- $sth->execute([ 
-   ":password" => $newPassword,
-   ":id" => $id
- ]);
- $sth->fetchAll(PDO::FETCH_ASSOC);
- header('Location: admins.php');
+  include ('dbconnect.php');
+  $sth = $pdo->prepare("UPDATE `admins` SET password= :password WHERE id = :id LIMIT 1");
+  $sth->execute([ 
+    ":password" => $newPassword,
+    ":id" => $id
+    ]);
+  header('Location: admins.php');
 }
 ?>
 

@@ -4,8 +4,10 @@ session_start();
 //------ Работа с полученными данными -----------
 if (!empty($_POST)) {
   if(isset($_POST['delete'])) {
-    //удалить категорию и все вопросы
-    deleteCategoryAndQuest($_POST['categoryId']);
+    //удалить вопросы
+    deleteQuestions($_POST['categoryId']);
+    //удалить категорию
+    deleteCategory($_POST['categoryId']);
 
   } elseif (isset($_POST['add'])) {
     //добавить новую категорию
@@ -33,22 +35,15 @@ $questions = getQuestions();
 function getTopicsData() {
   include ('dbconnect.php');
   $sql = "
-  SELECT 
-    c.id as id,
-    c.title as title,
-    COUNT(q.id) as quantity_q,
-    COUNT(q2.id) as published_q,
-    COUNT(q1.id) as waiting_q,
-    COUNT(q3.id) as hidden_q
+  SELECT
+    c.id,
+    c.title,
+  COUNT(q.id) as quantity_q,
+  SUM(IF(q.status_id='2', 1,0)) as published_q,
+  SUM(IF(q.status_id='1', 1,0)) as waiting_q,
+  SUM(IF(q.status_id='3', 1,0)) as hidden_q
   FROM categories c
-  LEFT OUTER JOIN  questions q
-    ON q.category_id=c.id 
-  LEFT OUTER JOIN  questions q1
-    ON q1.category_id=c.id AND q.status_id='1'
-  LEFT OUTER JOIN  questions q2
-    ON q2.category_id=c.id AND q.status_id='2'
-  LEFT OUTER JOIN  questions q3
-    ON q3.category_id=c.id AND q.status_id='3'
+  LEFT JOIN questions q ON q.category_id=c.id
   GROUP BY c.id
   ";
   $sth = $pdo->prepare($sql);
@@ -57,15 +52,24 @@ function getTopicsData() {
   return $result;
 }
 
-// удаляет категорию из таблицы categories и вопросы из таблицы questions
-function deleteCategoryAndQuest($categoryId) 
+// удаляет вопросы из таблицы questions
+function deleteQuestions($categoryId) 
 {
   include ('dbconnect.php');
-  $sth = $pdo->prepare("DELETE questions, categories FROM questions, categories WHERE questions.category_id = :category_id && categories.id = :category_id ");
+  $sth = $pdo->prepare("DELETE questions  FROM questions WHERE questions.category_id = :category_id");
   $sth->execute([
     ':category_id' => $categoryId
   ]);
-  $sth->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// удаляет категорию из таблицы categories
+function deleteCategory($categoryId) 
+{
+  include ('dbconnect.php');
+  $sth = $pdo->prepare("DELETE categories FROM  categories WHERE categories.id = :category_id ");
+  $sth->execute([
+    ':category_id' => $categoryId
+  ]);
 }
 
 // добавляет категорию в таблицу categories
@@ -84,7 +88,6 @@ function addCategory($newCategory)
     $sth->execute([
       ':title' => $newCategory
     ]);
-    $sth->fetchAll(PDO::FETCH_ASSOC);
   } else {
     print('Данная тема уже существует, введите другую');
   }
@@ -131,7 +134,6 @@ function deteleQuestion($questionId)
   $sth->execute([
     ':id' => $questionId
   ]);
-  $sth->fetchAll(PDO::FETCH_ASSOC);
 }
 
 //меняет статус 
@@ -143,7 +145,6 @@ function changeStatus($newStatusId, $questionId)
     ":status_id" => $newStatusId,
     ":id" => $questionId
     ]);
-  $sth->fetchAll(PDO::FETCH_ASSOC);
 }
 
 ?>

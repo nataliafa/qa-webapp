@@ -106,7 +106,6 @@ function changeCategory($newCategory, $questionId)
     ":category_id" => $newCategory,
     ":id" => $questionId
     ]);
-  $sth->fetchAll(PDO::FETCH_ASSOC);
 }
 
 // меняет имя автора
@@ -118,8 +117,7 @@ function changeAuthorName($newAuthorName, $authorName)
     $sth->execute([
       ":new_name" => $newAuthorName,
       ":old_name" => $authorName,
-      ]);
-    $sth->fetchAll(PDO::FETCH_ASSOC);
+    ]);
   }
   catch(PDOException $e) {
     // echo $e->getMessage();
@@ -134,8 +132,7 @@ function changeTitle($newTitle, $questionId)
   $sth->execute([
     ":title" => $newTitle,
     ":id" => $questionId
-    ]);
-  $sth->fetchAll(PDO::FETCH_ASSOC);
+  ]);
 }
 
 // меняет контент вопроса
@@ -146,8 +143,7 @@ function changeContent($newContent, $questionId)
   $sth->execute([
     ":content" => $newContent,
     ":id" => $questionId
-    ]);
-  $sth->fetchAll(PDO::FETCH_ASSOC);
+  ]);
 }
 
 // меняет ответ на вопрос
@@ -158,8 +154,7 @@ function changeAnswer($newAnswer, $questionId)
   $sth->execute([
     ":answer" => $newAnswer,
     ":id" => $questionId
-    ]);
-  $sth->fetchAll(PDO::FETCH_ASSOC);
+  ]);
 }
 
 // публикует ответ
@@ -169,8 +164,7 @@ function publish($questionId) {
   $sth->execute([
     ":status_id" => 2,
     ":id" => $questionId
-    ]);
-  $sth->fetchAll(PDO::FETCH_ASSOC);
+  ]);
 }
 
 // скрывет ответ
@@ -180,8 +174,7 @@ function hide($questionId) {
   $sth->execute([
     ":status_id" => 3,
     ":id" => $questionId
-    ]);
-  $sth->fetchAll(PDO::FETCH_ASSOC);
+  ]);
 }
 
 ?>

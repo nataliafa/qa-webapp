@@ -4,18 +4,6 @@ $message='';
 $categories = getCategories();
 
 
-//----------- Проверка и создание таблицы authors--------------------
-include ('dbconnect.php');
-
-$sth = $pdo->query("SHOW TABLES in `nfomina`");
-$tables = $sth->fetchAll(PDO::FETCH_ASSOC);
-
-foreach ($tables as $item) {
-  if ($item['Tables_in_nfomina'] !== 'authors') {
-    createAuthorsTable();
-  } 
-}
-
 //----------- Работа с полученными данными --------------------
 if(!empty($_POST)) {
   //отправить автора в таблицу authors
@@ -26,7 +14,14 @@ if(!empty($_POST)) {
 
   // отправить вопрос в таблицу questions
   addQuestion($_POST['title'], $_POST['categoryId'], $authorId, $_POST['content']);
-  $message='Ваш вопрос был отправлен';
+  header('Location: addQuestion.php?send=true');
+}
+
+if(!empty($_GET)) {
+  print_r($_GET);
+  if(isset($_GET['send'])) {
+    $message='Ваш вопрос был отправлен';
+  }
 }
 
 
@@ -40,24 +35,6 @@ function getCategories() {
   return $result;
 }
 
-// создает таблицу authors
-function createAuthorsTable() 
-{
-  try {
-    include ('dbconnect.php');
-    $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION ); //Error Handling
-    $sql = "CREATE TABLE `authors` (
-      `id` int(11) NOT NULL AUTO_INCREMENT,
-      `name` varchar(50) NOT NULL,
-      `email` varchar(255) NOT NULL,
-      PRIMARY KEY (`id`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8" ;
-    $pdo->exec($sql);
-    print("<h3 style='color:green;'>Таблица `authors` создана.</h3>");
-  } catch(PDOException $e) {
-    // echo $e->getMessage();
-  }
-}
 
 // добавляет автора в таблицу authors
 function addAuthor($authorName, $email) 
@@ -69,7 +46,6 @@ function addAuthor($authorName, $email)
       ":name" => $authorName,
       ":email" => $email,
       ]);
-    $sth->fetchAll(PDO::FETCH_ASSOC);
   } catch(PDOException $e) {
     // echo $e->getMessage();
   }
@@ -100,7 +76,6 @@ function addQuestion($title, $categoryId, $authorId, $content)
       ":author_id" => $authorId,
       ":content" => $content
       ]);
-    $sth->fetchAll(PDO::FETCH_ASSOC);
   } catch(PDOException $e) {
     // echo $e->getMessage();
   }

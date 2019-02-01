@@ -42,8 +42,7 @@ function changeStatus($newStatusId, $questionId)
   $sth->execute([
     ":status_id" => $newStatusId,
     ":id" => $questionId
-    ]);
-  $sth->fetchAll(PDO::FETCH_ASSOC);
+  ]);
 }
 
 //возвращает имя категории
@@ -87,7 +86,6 @@ function deteleQuestion($questionId)
   $sth->execute([
     ':id' => $questionId
   ]);
-  $sth->fetchAll(PDO::FETCH_ASSOC);
 }
 
 ?>
