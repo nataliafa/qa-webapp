@@ -5,7 +5,7 @@ class Di
   static $di = null;
   public static function get()
   {
-    if(! self::$di) {
+    if (!self::$di) {
       self::$di = new Di();
     }
     return self::$di;
@@ -33,7 +33,7 @@ class Di
     $fileTemplate='template/'.$template;
     if (is_file($fileTemplate)) {
       ob_start();
-      if(count($params)>0) {
+      if (count($params)>0) {
         extract($params);
       }
       include $fileTemplate;

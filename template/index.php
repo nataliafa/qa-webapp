@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<?php if(isset($message)) { ?>
+<?php if (isset($message)) { ?>
   <p><?php echo $message?></p>
 <?php } ?>
 

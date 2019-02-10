@@ -7,40 +7,41 @@ include 'model/Author.php';
 
 class AdminController
 {
+  // выход из аккаунта
   public function logout()
   {
-    if(isset($_POST['logout'])) {
+    if (isset($_POST['logout'])) {
       $admin = new Admin();
       $admin->destroySession();
     } 
     header('Location: index.php');
   }
 
+  // авторизация
   public function login()
   {
-    if(isset($_POST['login']) && isset($_POST['password'])) {
+    if (isset($_POST['login']) && isset($_POST['password'])) {
 
       $admin = new Admin();
-      $result = $admin->checkLoginAndPass($_POST['login'], $_POST['password']);
+      $result = $admin->checkLoginAndPassword($_POST['login'], $_POST['password']);
 
       if (!empty($result)) {
         $admin->addToSession($result);
         header('Location: index.php?c=admin&a=listAll');
       } else {
         $message = 'Введен не верный логин или пароль';
-        Di::get()->render('index.php');
+        Di::get()->render('index.php',['message' => $message]);
       }
     } else {
       header('Location: index.php');
     }
   }
 
+  // рендер страницы со списком тем и вопросов ожидающих ответа
   public function listAll()
   {
-    if (!isset($_SESSION['login'])) {
-      header('Location: index.php');
-      exit;
-    }
+    $admin = new Admin();
+    $admin->checkAdminInSession();
     $category = new Category();
     $question = new Question();
     $status = new Status();
@@ -50,9 +51,10 @@ class AdminController
     Di::get()->render('listAll.php', ['categories' => $categories,'questions' => $questions, 'statuses' => $statuses]);
   }
 
+  // удалить вопрос на странице со список тем и вопросов ожидающих ответа
   public function listAllQuestionDelete()
   {
-    if(isset($_POST['deleteQuestion']) && isset($_POST['questionId'])) {
+    if (isset($_POST['deleteQuestion']) && isset($_POST['questionId'])) {
       $question = new Question();
       $question->deleteQuestion($_POST['questionId']);
       header('Location: index.php?c=admin&a=listAll');
@@ -61,9 +63,10 @@ class AdminController
     }
   }
 
+  // изменить статус вопроса на странице со список тем и вопросов ожидающих ответа
   public function listAllChangeStatus()
   {
-    if(isset($_POST['changeStatus']) && isset($_POST['newStatusId']) && isset($_POST['questionId'])) {
+    if (isset($_POST['changeStatus']) && isset($_POST['newStatusId']) && isset($_POST['questionId'])) {
       $question = new Question();
       $question->changeStatus($_POST['newStatusId'], $_POST['questionId']);
       header('Location: index.php?c=admin&a=listAll');
@@ -72,34 +75,31 @@ class AdminController
     }
   }
 
+  // рендер страницы со списом администраторов
   public function adminList()
   {
-    if (!isset($_SESSION['login'])) {
-      header('Location: index.php');
-      exit;
-    }
-
     $admin = new Admin();
+    $admin->checkAdminInSession();
     $admins = $admin->getAdmins();
     Di::get()->render('admins.php', ['admins' => $admins]);
   }
 
+  // добавить администратора
   public function adminAdd()
   {
     if (isset($_POST['adminAdd'])) {
-      if(isset($_POST['login']) && isset($_POST['password'])) {
+      if (isset($_POST['login']) && isset($_POST['password'])) {
 
         $admin = new Admin();
         $result = $admin->checkLogin($_POST['login']);
 
         if (empty($result)) {
           $admin->addAdmin($_POST['login'], $_POST['password']);
-          $message = 'Администратор '.$_POST['login'].' добавлен';
           header('Location: index.php?c=admin&a=adminList');
-
         } else {
           $message = 'Данный логин занят';
-          header('Location: index.php?c=admin&a=adminList');
+          $admins = $admin->getAdmins();
+          Di::get()->render('admins.php', ['admins' => $admins, 'message' => $message]);
         }
       }
     } else {
@@ -107,57 +107,63 @@ class AdminController
     }
   }
 
+  // удалить аминистратора
   public function adminDelete()
   {
-    if(isset($_POST['adminDelete']) && isset($_POST['adminId'])) {
+    if (isset($_POST['adminDelete']) && isset($_POST['adminId'])) {
       $admin = new Admin();
       $admin->deleteAdmin($_POST['adminId']);
-      $message = 'Администратор удален';
       header('Location: index.php?c=admin&a=adminList');
     } else {
       header('Location: index.php');
     }
   }
 
-  public function adminChangePass()
+  // изменить пароль аминистратора
+  public function adminChangePassword()
   {
-    if(isset($_POST['changePassword']) && isset($_POST['newPassword'])) {
-      if ($_POST['newPassword'] === '') {
-        $message = 'Введите новый пароль';
-        Di::get()->render('admins.php');
-      } else {
-        $admin = new Admin();
-        $admin->changePass($_POST['newPassword'], $_POST['adminId']);
-        header('Location: index.php?c=admin&a=adminList');
-      }
+    if (isset($_POST['changePassword']) && isset($_POST['newPassword'])) {
+      $admin = new Admin();
+      $admin->changePassword($_POST['newPassword'], $_POST['adminId']);
+      header('Location: index.php?c=admin&a=adminList');
     } else {
       header('Location: index.php');
     }
   }
 
+  // добавить категорию
   public function categoryAdd()
   {
-    if(isset($_POST['categoryAdd']) && isset($_POST['newCategory'])) {
+    if (isset($_POST['categoryAdd']) && isset($_POST['newCategory'])) {
       $category = new Category();
       $result = $category->checkCategory($_POST['newCategory']);
 
-      if(count($result) === 0) {
+      if (count($result) === 0) {
         $category->addCategory($_POST['newCategory']);
-        $message = 'Категория '.$_POST['newCategory'].' добавлена';
         header('Location: index.php?c=admin&a=listAll');
 
       } else {
+        $admin = new Admin();
+        $admin->checkAdminInSession();
+        $category = new Category();
+        $question = new Question();
+        $status = new Status();
+        $categories = $category->getCategoriesCountQuantity();
+        $questions = $question->getQuestionsWithoutAnswer();
+        $statuses = $status->getStatuses();
         $message = 'Данная тема уже существует, введите другую';
-        header('Location: index.php?c=admin&a=listAll');
+        Di::get()->render('listAll.php', ['categories' => $categories,'questions' => $questions, 'statuses' => $statuses, 'message' => $message]);
+        // header('Location: index.php?c=admin&a=listAll');
       }
     } else {
       header('Location: index.php');
     }
   }
 
+  // удалить категорию и вопросы в ней
   public function categoryQuestionsDelete()
   {
-    if(isset($_POST['delete']) && isset($_POST['categoryId'])) {
+    if (isset($_POST['delete']) && isset($_POST['categoryId'])) {
       $question = new Question();
       $question->deleteAllQuestionsByIdCategory($_POST['categoryId']);
       $category = new Category();
@@ -168,13 +174,13 @@ class AdminController
     }
   }
 
-  public function questionList() {
-    if (!isset($_SESSION['login'])) {
-      header('Location: index.php');
-      exit;
-    }
+  // рендер страницы со списком вопросов
+  public function questionList() 
+  {
+    $admin = new Admin();
+    $admin->checkAdminInSession();
 
-    if(isset($_GET['categoryId'])) {
+    if (isset($_GET['categoryId'])) {
       $categoryId = $_GET['categoryId'];
       $category = new Category;
       $categoryName = $category->getName($_GET['categoryId']);
@@ -186,9 +192,10 @@ class AdminController
     Di::get()->render('questions.php', ['categoryId' => $categoryId,'categoryName' => $categoryName, 'questions' => $questions, 'statuses' => $statuses]);
   }
 
+  // изменить статус вопроса на странице со списком вопросов
   public function questionChangeStatus()
   {
-    if(isset($_POST['changeStatus']) && isset($_POST['newStatusId']) && isset($_POST['categoryId'])) {
+    if (isset($_POST['changeStatus']) && isset($_POST['newStatusId']) && isset($_POST['categoryId'])) {
       $question = new Question;
       $question->changeStatus($_POST['newStatusId'], $_POST['questionId']);
       header('Location: index.php?c=admin&a=questionList&categoryId='.$_POST['categoryId']);
@@ -197,9 +204,10 @@ class AdminController
     }
   }
 
+  // удалить вопрос на странице со списком вопросов
   public function questionDelete()
   {
-    if(isset($_POST['categoryId']) && isset($_POST['questionId']) && isset($_POST['delete'])) {
+    if (isset($_POST['categoryId']) && isset($_POST['questionId']) && isset($_POST['delete'])) {
       $question = new Question;
       $question->deleteQuestion($_POST['questionId']);
       header('Location: index.php?c=admin&a=questionList&categoryId='.$_POST['categoryId']);
@@ -208,60 +216,59 @@ class AdminController
     }
   }
 
+  // редактировать вопрос
   public function questionEdit()
   {
-    if (!isset($_SESSION['login'])) {
-      header('Location: index.php');
-      exit;
-    }
+    $admin = new Admin();
+    $admin->checkAdminInSession();
    
     if (isset($_GET['categoryId']) && isset($_GET['questionId'])) {
       $question = new Question;
       $author = new Author;
       $category = new Category;
 
-      if(isset($_POST['publish'])) {
+      if (isset($_POST['publish'])) {
         //публикация
         $question->publish($_GET['questionId']);
-        $message='Вопрос опубликован';
+        $message = 'Вопрос опубликован';
       } 
 
-      if(isset($_POST['hide'])) {
+      if (isset($_POST['hide'])) {
         // скрыть вопрос
         $question->hide($_GET['questionId']);
-        $message='Вопрос скрыт';
+        $message = 'Вопрос скрыт';
       } 
 
-      if(isset($_POST['newCategory'])) {
+      if (isset($_POST['newCategory'])) {
         // изменить категорию
         $question->changeCategory($_POST['newCategory'],$_GET['questionId']);
       } 
       
-      if(isset($_POST['newAuthorName']) && isset($_POST['authorName'])) {
+      if (isset($_POST['newAuthorName']) && isset($_POST['authorName'])) {
         // изменить имя автора
         $author->changeAuthorName($_POST['newAuthorName'], $_POST['authorName']);
       }
 
-      if(isset($_POST['newTitle'])) {
+      if (isset($_POST['newTitle'])) {
         // изменить title
         $question->changeTitle($_POST['newTitle'], $_GET['questionId']);
       } 
 
-      if(isset($_POST['newContent'])) {
+      if (isset($_POST['newContent'])) {
         // изменить контент вопроса
         $question->changeContent($_POST['newContent'], $_GET['questionId']);
       } 
 
-      if(isset($_POST['newAnswer'])) {
+      if (isset($_POST['newAnswer'])) {
         // изменить ответ
         $question->changeAnswer($_POST['newAnswer'], $_GET['questionId']);
       }
 
       $question = $question->getQuestionById($_GET['questionId']);
       $categories = $category->getCategories();
-      Di::get()->render('questionEdit.php', ['question' => $question,'categories' => $categories]);
+      Di::get()->render('questionEdit.php', ['question' => $question,'categories' => $categories, 'message' => $message]);
     } else {
-      print('Нет такого вопороса');
+      header('Location: index.php');
     }
   }
 }

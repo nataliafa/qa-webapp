@@ -2,13 +2,16 @@
 
 class Category
 {
-  public function getCategories() {
-    $sth = Di::get()->db()->prepare("SELECT * FROM categories");
+  // возвращает массив категорий
+  public function getCategories() 
+  {
+    $sth = Di::get()->db()->prepare("SELECT id, title FROM categories");
     $sth->execute();
     $result = $sth->fetchAll(PDO::FETCH_ASSOC);
     return $result;
   }
 
+  // возвращает массив категорий с значением вопросов по каждой категории
   public function getCategoriesCountQuantity()
   {
     $sql = "
@@ -29,6 +32,7 @@ class Category
     return $result;
   }
 
+  // возвращает имя категории
   public function getName($categoryId)
   {
     $sth = Di::get()->db()->prepare("SELECT title FROM categories WHERE id = :id LIMIT 1");
@@ -36,7 +40,8 @@ class Category
     $result = $sth->fetchAll(PDO::FETCH_ASSOC);
     return $result[0]['title'];
   }
-  
+
+  // возвращает результат проверки существания категория 
   public function checkCategory($newCategory)
   {
     $sth = Di::get()->db()->prepare("SELECT title FROM categories WHERE title = :title LIMIT 1");
@@ -45,12 +50,14 @@ class Category
     return $result;
   }
   
+  // добавляет категорию
   public function addCategory($newCategory)
   {
     $sth = Di::get()->db()->prepare("INSERT INTO categories SET title = :title");
     $sth->execute([':title' => $newCategory]);
   }
   
+  // удаляет категорию
   public function deleteCategory($categoryId) 
   {
     $sth = Di::get()->db()->prepare("DELETE categories FROM  categories WHERE categories.id = :category_id ");

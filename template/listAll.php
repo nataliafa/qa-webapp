@@ -111,7 +111,7 @@
           <form action="index.php?c=admin&a=listAllChangeStatus" method="post">
             <input type="hidden" name="questionId" value="<?php echo $question['id']?>"/>
             <select name="newStatusId">
-            <?php foreach($statuses as $status) { ?>
+            <?php foreach ($statuses as $status) { ?>
               <option value="<?php echo $status['id'] ?>" <?php if($status['status'] === $question['status']) :?>selected<?php endif?>><?php echo $status['status'] ?></option>
             <?php } ?>
             </select>

@@ -2,6 +2,7 @@
 
 class Question 
 {
+  // возращает массив всех вопросов с ответами для Front
   public function getQuestionsAllFront()
   {
     $sql = "
@@ -25,6 +26,7 @@ class Question
     return $result;
   }
 
+  // возращает массив всех вопросов с ответами по Id категории для Front
   public function getQuestionsByIdCategoryFront($categoryId) 
   {
     $sql = "
@@ -50,6 +52,7 @@ class Question
     return $result;
   }
 
+  // возращает массив вопросов без ответа
   public function getQuestionsWithoutAnswer()
   {
     $sth = Di::get()->db()->prepare("
@@ -71,6 +74,7 @@ class Question
     return $result;
   }
 
+  // возращает массив вопросов по id категории
   public function getQuestionsByIdCategory($categoryId)
   {
     $sth = Di::get()->db()->prepare("
@@ -88,6 +92,7 @@ class Question
     return $result;
   }
 
+  // возвращает вопрос c значениями по его id
   public function getQuestionById($questionId)
   {
     $sql = "
@@ -119,6 +124,7 @@ class Question
     return $result[0];
   }
   
+  // изменить статус вопроса
   public function changeStatus($newStatusId, $questionId)
   {
     $sth = Di::get()->db()->prepare("UPDATE questions SET status_id = :status_id WHERE id = :id LIMIT 1");
@@ -127,7 +133,8 @@ class Question
       ":id" => $questionId
     ]);
   }
-  
+
+  // изменить категорию вопроса
   public function changeCategory($newCategory, $questionId)
   {
     $sth = Di::get()->db()->prepare("UPDATE questions SET category_id = :category_id WHERE id = :id LIMIT 1");
@@ -136,7 +143,8 @@ class Question
       ":id" => $questionId
     ]);
   }
-  
+
+  // изменить заголовок вопроса
   public function changeTitle($newTitle, $questionId)
   {
     $sth = Di::get()->db()->prepare("UPDATE questions SET title = :title WHERE id = :id LIMIT 1");
@@ -145,7 +153,8 @@ class Question
       ":id" => $questionId
     ]);
   }
-  
+
+  // изменить контент вопроса
   public function changeContent($newContent, $questionId)
   {
     $sth = Di::get()->db()->prepare("UPDATE questions SET content = :content WHERE id = :id LIMIT 1");
@@ -154,7 +163,8 @@ class Question
       ":id" => $questionId
     ]);
   }
-  
+
+  // изменить ответ на вопрос
   public function changeAnswer($newAnswer, $questionId)
   {
     $sth = Di::get()->db()->prepare("UPDATE questions SET answer = :answer WHERE id = :id LIMIT 1");
@@ -163,7 +173,8 @@ class Question
       ":id" => $questionId
     ]);
   }
-  
+
+  // добавить вопрос
   public function addQuestion($title, $categoryId, $authorId, $content)
   {
     $sth = Di::get()->db()->prepare("INSERT INTO questions SET title = :title, category_id = :category_id, author_id = :author_id, content = :content");
@@ -175,26 +186,31 @@ class Question
     ]);
   }
 
+  // удалить вопрос
   public function deleteQuestion($questionId)
   {
     $sth = Di::get()->db()->prepare("DELETE questions FROM questions WHERE questions.id = :id");
     $sth->execute([':id' => $questionId]);
   }
 
+  // удалить вопрос все вопросы по id категории
   public function deleteAllQuestionsByIdCategory($categoryId) 
   {
     $sth = Di::get()->db()->prepare("DELETE questions FROM questions WHERE questions.category_id = :category_id");
     $sth->execute([':category_id' => $categoryId]);
   }
-  
-  public function publish($questionId) {
+
+  // опубликовать вопрос
+  public function publish($questionId) 
+  {
     $sth = Di::get()->db()->prepare("UPDATE questions SET status_id = :status_id WHERE id = :id LIMIT 1");
     $sth->execute([
       ":status_id" => 2,
       ":id" => $questionId
     ]);
   }
-  
+
+  // скрыть вопрос
   public function hide($questionId)
   {
     $sth = Di::get()->db()->prepare("UPDATE questions SET status_id = :status_id WHERE id = :id LIMIT 1");

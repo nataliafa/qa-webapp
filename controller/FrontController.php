@@ -5,20 +5,22 @@ include 'model/Question.php';
 
 class FrontController
 {
+  // рендер страницы index.php
   public function enter()
   {
     Di::get()->render('index.php');
   }
 
+  // рендер страницы c категориями
   public function categories()
   {
-    if(isset($_GET['categoryId'])) {
+    if (isset($_GET['categoryId'])) {
       $activeCategory = $_GET['categoryId'];
       $category = new Category;
       $categories = $category->getCategories();
       $question = new Question;
 
-      if(isset($_POST['categoryId'])) {
+      if (isset($_POST['categoryId'])) {
         $activeCategory = $_POST['categoryId'];
         header("Location: index.php?c=front&a=categories&categoryId=$activeCategory");
       }
@@ -32,8 +34,10 @@ class FrontController
     }
   }
 
+  // рендер страницы c формой отправки вопроса
   public function sendQuestion()
   {
+    $message = '';
     if (isset($_POST['send']) && isset($_POST['authorName']) && isset($_POST['email']) && isset($_POST['categoryId']) && isset($_POST['title']) && isset($_POST['content'])) {
       $author = new Author;
       $question = new Question; 
@@ -45,8 +49,7 @@ class FrontController
     }
     $category = new Category;
     $categories = $category->getCategories();
-    Di::get()->render('sendQuestion.php', ['categories' => $categories]);
+    Di::get()->render('sendQuestion.php', ['categories' => $categories, 'message'=> $message]);
   }
-
 }
 ?>

@@ -29,11 +29,6 @@
 <h3>Имя администратора: <?php echo $_SESSION['login']?></h3>
 <hr/>
 
-<?php if (isset($message)) { ?>
-  <h3><?php echo $message?></h3>
-<?php } ?>
-
-
 <h3>Список администраторов:</h3>
 
 <table>
@@ -53,10 +48,10 @@
             <td>
               <?php
               if ($key === 'password') { ?>
-                <form action="index.php?c=admin&a=adminChangePass" method="post">
+                <form action="index.php?c=admin&a=adminChangePassword" method="post">
                   <input type="hidden" name="adminId" value="<?php echo $admin['id']?>"/>
                   <span><?php echo $value?></span>
-                  <input type="text" name="newPassword" placeholder="Введите новый пароль"/>
+                  <input type="text" name="newPassword" placeholder="Введите новый пароль" required/>
                   <input type="submit" name="changePassword" value="Изменить"/>
                 </form>
               <?php
@@ -89,6 +84,10 @@
   <br/>
   <input type="submit" name="adminAdd" value="добавить"/>
 </form>
+
+<?php if (isset($message)) { ?>
+  <h3><?php echo $message?></h3>
+<?php } ?>
     
 </body>
 </html>
