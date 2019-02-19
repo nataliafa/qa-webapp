@@ -351,6 +351,7 @@ tr {
   text-align: left;
   cursor: pointer;
   outline: none;
+  background-color: #fff;
 }
 .categories__button:hover {
   color: #687f96;
