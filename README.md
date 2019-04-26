@@ -2,8 +2,8 @@
 
 + Разработан типовой сервис вопросов и ответов. Pеализована клиентская часть сервиса и интерфейс администратора.
 + Система реализована на PHP, использована MVC архитектура, компоненты реализованы с использованием ООП, данные администраторов, тем, вопросов и ответов хранится в СУБД MySQL
-+ ссылка интерфейс [Клиентская часть](http://university.netology.ru/u/nfomina/php/index.php?c=front&a=categories&categoryId=all)
-+ ссылка интерфейс [Администратор](http://university.netology.ru/u/nfomina/php/index.php) (пароль: admin, логин: admin)
++ ссылка интерфейс [Клиентская часть](http://begethost7.beget.tech/faq/index.php?c=front&a=categories&categoryId=all)
++ ссылка интерфейс [Администратор](http://begethost7.beget.tech/faq/index.php) (пароль: admin, логин: admin)
 
 ### Клиентская часть
 ![Клиентская часть](./resources/clientInt.jpg)
