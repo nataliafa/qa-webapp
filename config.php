@@ -1,7 +1,7 @@
 <?php return [
   'host'=> 'localhost',
-  'dbname'=> 'nfomina',
-  'user' => 'nfomina',
-  'pass' => 'neto1914'
+  'dbname'=> 'begethost7_faq',
+  'user' => 'begethost7_faq',
+  'pass' => 'faq123'
   ]
 ?>
