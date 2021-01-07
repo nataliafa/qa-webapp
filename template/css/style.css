@@ -79,6 +79,9 @@ a {
 .button-hide:hover {
   background-color: #40c4fd;
 }
+.button-delete {
+ background-color: hsl(348, 100%, 61%);
+}
 .input,
 .select {
   width: 200px;
