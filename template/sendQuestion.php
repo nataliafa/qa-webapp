@@ -20,7 +20,7 @@
 </div>
 
 <section class="banner">
-  <h1 class="banner__title">FAQ</h1>
+  <h1 class="banner__title">Q&A</h1>
 </section>
 
 
@@ -40,7 +40,7 @@
       </div>
 
       <div class="content__addQuestion-item">
-        <span>Choose a category:</span>
+        <span>Category:</span>
         <select class="select" name="categoryId">
           <?php foreach ($categories as $category) { ?>
             <option value="<?php echo $category['id'] ?>"><?php echo $category['title'] ?></option>

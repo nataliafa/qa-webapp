@@ -20,7 +20,7 @@
 </div>
 
 <section class="banner">
-  <h1 class="banner__title">FAQ</h1>
+  <h1 class="banner__title">Q&A</h1>
 </section>
 
 <main class="main">
@@ -50,7 +50,7 @@
 
             <p class="answers__item-question"><?php echo $item['question'] ?></p>
             <div class="answers__item-answer">
-              <p class="answers__item-answer-item">Ответ:</p>
+              <p class="answers__item-answer-item">Answer:</p>
               <p><?php echo $item['answer'] ?></p>
             </div>
           </div>
