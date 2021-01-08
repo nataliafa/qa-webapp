@@ -5,13 +5,17 @@ include 'model/Question.php';
 
 class FrontController
 {
-  // рендер страницы index.php
+  /**
+   * Render index.php page
+   */
   public function enter()
   {
     Di::get()->render('index.php');
   }
 
-  // рендер страницы c категориями
+  /**
+   * Render page with categories
+   */
   public function categories()
   {
     if (isset($_GET['categoryId'])) {
@@ -30,26 +34,29 @@ class FrontController
       } else {
         $result = $question->getQuestionsByIdCategoryFront($activeCategory);
       }
-      Di::get()->render('categories.php', ['activeCategory' => $activeCategory,'categories' => $categories,'result' => $result]);
+      Di::get()->render('categories.php', ['activeCategory' => $activeCategory, 'categories' => $categories, 'result' => $result]);
     }
   }
 
-  // рендер страницы c формой отправки вопроса
+  /**
+   * Rendering of page with question submission form
+   */
   public function sendQuestion()
   {
     $message = '';
     if (isset($_POST['send']) && isset($_POST['authorName']) && isset($_POST['email']) && isset($_POST['categoryId']) && isset($_POST['title']) && isset($_POST['content'])) {
       $author = new Author;
-      $question = new Question; 
+      $question = new Question;
 
       $author->addAuthor($_POST['authorName'], $_POST['email']);
       $authorId = $author->getAuthorId($_POST['authorName'], $_POST['email']);
       $question->addQuestion($_POST['title'], $_POST['categoryId'], $authorId, $_POST['content']);
-      $message = 'Ваш вопрос был отправлен';
+      $message = 'Your question was submitted';
     }
     $category = new Category;
     $categories = $category->getCategories();
-    Di::get()->render('sendQuestion.php', ['categories' => $categories, 'message'=> $message]);
+    Di::get()->render('sendQuestion.php', ['categories' => $categories, 'message' => $message]);
   }
 }
+
 ?>

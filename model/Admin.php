@@ -2,79 +2,106 @@
 
 class Admin
 {
-  // возвращает массив администраторов
-  public function getAdmins() 
+  /**
+   * Returns an array of administrators
+   * @return array
+   */
+  public function getAdmins(): array
   {
     $sth = Di::get()->db()->prepare("SELECT id, login, password FROM `admins`");
     $sth->execute();
-    $result = $sth->fetchAll(PDO::FETCH_ASSOC);
-    return $result;
+    return $sth->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  // возвращает результат проверки есть ли в таблице admins введенный логин и пароль
-  public function checkLoginAndPassword($login, $password) 
+  /**
+   * Returns the result of checking if the username and password entered is in the admins table
+   * @param $login
+   * @param $password
+   * @return array
+   */
+  public function checkLoginAndPassword($login, $password): array
   {
     $sth = Di::get()->db()->prepare("SELECT id, login, password FROM admins WHERE login = :login AND password = :password LIMIT 1");
     $sth->execute([
-      ':login' => $login,
-      ':password' => $password,
+        ':login' => $login,
+        ':password' => $password,
     ]);
-    $result = $sth->fetchAll(PDO::FETCH_ASSOC);
-    return $result;
+    return $sth->fetchAll(PDO::FETCH_ASSOC);
   }
-  
-  // возвращает результат проверки есть ли в таблице admins введенный логин
-  public function checkLogin($login) 
+
+  /**
+   * Returns the result of checking if the entered login is in the admins table
+   * @param $login
+   * @return array
+   */
+  public function checkLogin($login): array
   {
     $sth = Di::get()->db()->prepare("SELECT id, login, password FROM admins WHERE login = :login LIMIT 1");
     $sth->execute([
-      ':login' => $login,
+        ':login' => $login,
     ]);
-    $result = $sth->fetchAll(PDO::FETCH_ASSOC);
-    return $result;
+    return $sth->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  // изменить пароль администратора
-  public function changePassword($newPassword, $id) 
+  /**
+   * Change the administrator's password
+   * @param $newPassword
+   * @param $id
+   */
+  public function changePassword($newPassword, $id)
   {
     $sth = Di::get()->db()->prepare("UPDATE `admins` SET password= :password WHERE id = :id LIMIT 1");
-    $sth->execute([ 
-      ":password" => $newPassword,
-      ":id" => $id
+    $sth->execute([
+        ":password" => $newPassword,
+        ":id" => $id
     ]);
   }
 
-  // добавить администратора
-  public function addAdmin($login, $password) 
+  /**
+   * Add an administrator
+   * @param $login
+   * @param $password
+   */
+  public function addAdmin($login, $password)
   {
     $sth = Di::get()->db()->prepare("INSERT INTO `admins` SET login = :login, password= :password");
     $sth->execute([
-      ':login' => $login,
-      ':password' => $password,
+        ':login' => $login,
+        ':password' => $password,
     ]);
   }
 
-  // удалить администратора
-  public function deleteAdmin($id) 
+  /**
+   * Delete an administrator by ID
+   * @param $id
+   */
+  public function deleteAdmin($id)
   {
     $sth = Di::get()->db()->prepare("DELETE FROM `admins` WHERE id = :id LIMIT 1");
-    $sth->execute([ ":id" => $id]);
+    $sth->execute([":id" => $id]);
   }
 
-  // добавить в сессию администратора
+  /**
+   * Add to the admin session
+   * @param $admin
+   */
   public function addToSession($admin)
   {
     $_SESSION['login'] = $admin[0]['login'];
   }
 
-  // закрыть сессию
+  /**
+   * Close session
+   */
   public function destroySession()
   {
     session_destroy();
   }
 
-  // проверить есть ли администратор в сессии
-  public function checkAdminInSession() 
+  /**
+   * Check if there is an administrator in the session
+   */
+  public function checkAdminInSession()
   {
     if (!isset($_SESSION['login'])) {
       header('Location: index.php');
@@ -82,4 +109,3 @@ class Admin
     }
   }
 }
-?>

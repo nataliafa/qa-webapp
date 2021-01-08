@@ -73,7 +73,7 @@
           <?php endforeach; ?>
         </table>
       <?php else: ?>
-        <p>Категорий нет</p>
+        <p>No categories</p>
       <?php endif; ?>
     </div>
   </section>

@@ -2,10 +2,10 @@
 
 class Di
 {
-  private static $di = null;
-  private $db;
+  private static ?Di $di = null;
+  private PDO $db;
 
-  public static function get()
+  public static function get(): ?Di
   {
     if (!self::$di) {
       self::$di = new Di();
@@ -15,13 +15,19 @@ class Di
 
   function __construct()
   {
-    $this->db = new PDO('sqlite::memory:');
-    $this->createTables();
-    $this->insertData();
-    $this->insertDemoData();
+    $dbExists = false;
+    if (file_exists('qa.sqlite3')) {
+      $dbExists = true;
+    }
+    $this->db = new PDO('sqlite:qa.sqlite3');
+    if (!$dbExists) {
+      $this->createTables();
+      $this->insertData();
+      $this->insertDemoData();
+    }
   }
 
-  public function db()
+  public function db(): PDO
   {
     return $this->db;
   }
@@ -134,5 +140,3 @@ class Di
 }
 
 include 'router/router.php';
-
-?>

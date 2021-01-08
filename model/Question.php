@@ -1,9 +1,12 @@
 <?php
 
-class Question 
+class Question
 {
-  // возращает массив всех вопросов с ответами для Front
-  public function getQuestionsAllFront()
+  /**
+   * Returns an array of all questions with answers for Front
+   * @return array
+   */
+  public function getQuestionsAllFront(): array
   {
     $sql = "
     SELECT 
@@ -22,12 +25,15 @@ class Question
     ";
     $sth = Di::get()->db()->prepare($sql);
     $sth->execute();
-    $result = $sth->fetchAll(PDO::FETCH_ASSOC);
-    return $result;
+    return $sth->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  // возращает массив всех вопросов с ответами по Id категории для Front
-  public function getQuestionsByIdCategoryFront($categoryId) 
+  /**
+   * Returns an array of all questions with answers to Id category for Front
+   * @param $categoryId
+   * @return array
+   */
+  public function getQuestionsByIdCategoryFront($categoryId): array
   {
     $sql = "
     SELECT 
@@ -46,14 +52,16 @@ class Question
     ";
     $sth = Di::get()->db()->prepare($sql);
     $sth->execute([
-      ":category_id" => $categoryId
+        ":category_id" => $categoryId
     ]);
-    $result = $sth->fetchAll(PDO::FETCH_ASSOC);
-    return $result;
+    return $sth->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  // возращает массив вопросов без ответа
-  public function getQuestionsWithoutAnswer()
+  /**
+   * Returns an array of unanswered questions
+   * @return array
+   */
+  public function getQuestionsWithoutAnswer(): array
   {
     $sth = Di::get()->db()->prepare("
       SELECT 
@@ -70,12 +78,15 @@ class Question
         ON q.category_id = с.id 
         ");
     $sth->execute();
-    $result = $sth->fetchAll(PDO::FETCH_ASSOC);
-    return $result;
+    return $sth->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  // возращает массив вопросов по id категории
-  public function getQuestionsByIdCategory($categoryId)
+  /**
+   * Returns an array of questions by category id
+   * @param $categoryId
+   * @return array
+   */
+  public function getQuestionsByIdCategory($categoryId): array
   {
     $sth = Di::get()->db()->prepare("
       SELECT 
@@ -88,12 +99,15 @@ class Question
         ON q.status_id = s.id
       WHERE q.category_id = :category_id");
     $sth->execute([':category_id' => $categoryId]);
-    $result = $sth->fetchAll(PDO::FETCH_ASSOC);
-    return $result;
+    return $sth->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  // возвращает вопрос c значениями по его id
-  public function getQuestionById($questionId)
+  /**
+   * Returns the question with values by its id
+   * @param $questionId
+   * @return mixed
+   */
+  public function getQuestionById($questionId): mixed
   {
     $sql = "
     SELECT 
@@ -118,106 +132,143 @@ class Question
     ";
     $sth = Di::get()->db()->prepare($sql);
     $sth->execute([
-      ':id' => $questionId
+        ':id' => $questionId
     ]);
     $result = $sth->fetchAll(PDO::FETCH_ASSOC);
     return $result[0];
   }
-  
-  // изменить статус вопроса
+
+  /**
+   * Change the status of the question
+   * @param $newStatusId
+   * @param $questionId
+   */
   public function changeStatus($newStatusId, $questionId)
   {
     $sth = Di::get()->db()->prepare("UPDATE questions SET status_id = :status_id WHERE id = :id LIMIT 1");
     $sth->execute([
-      ":status_id" => $newStatusId,
-      ":id" => $questionId
+        ":status_id" => $newStatusId,
+        ":id" => $questionId
     ]);
   }
 
-  // изменить категорию вопроса
+  /**
+   * Change the category of the question
+   * @param $newCategory
+   * @param $questionId
+   */
   public function changeCategory($newCategory, $questionId)
   {
-    $sth = Di::get()->db()->prepare("UPDATE questions SET category_id = :category_id WHERE id = :id LIMIT 1");
+    $sth = Di::get()->db()->prepare("UPDATE questions SET category_id = :category_id WHERE id = :id");
     $sth->execute([
-      ":category_id" => $newCategory,
-      ":id" => $questionId
+        ":category_id" => $newCategory,
+        ":id" => $questionId
     ]);
   }
 
-  // изменить заголовок вопроса
+  /**
+   * Change the title of the question
+   * @param $newTitle
+   * @param $questionId
+   */
   public function changeTitle($newTitle, $questionId)
   {
-    $sth = Di::get()->db()->prepare("UPDATE questions SET title = :title WHERE id = :id LIMIT 1");
+    $sth = Di::get()->db()->prepare("UPDATE questions SET title = :title WHERE id = :id");
     $sth->execute([
-      ":title" => $newTitle,
-      ":id" => $questionId
+        ":title" => $newTitle,
+        ":id" => $questionId
     ]);
   }
 
-  // изменить контент вопроса
+  /**
+   * Change the content of the question
+   * @param $newContent
+   * @param $questionId
+   */
   public function changeContent($newContent, $questionId)
   {
-    $sth = Di::get()->db()->prepare("UPDATE questions SET content = :content WHERE id = :id LIMIT 1");
+    $sth = Di::get()->db()->prepare("UPDATE questions SET content = :content WHERE id = :id");
     $sth->execute([
-      ":content" => $newContent,
-      ":id" => $questionId
+        ":content" => $newContent,
+        ":id" => $questionId
     ]);
   }
 
-  // изменить ответ на вопрос
+  /**
+   * Change the answer of a question
+   * @param $newAnswer
+   * @param $questionId
+   */
   public function changeAnswer($newAnswer, $questionId)
   {
-    $sth = Di::get()->db()->prepare("UPDATE questions SET answer = :answer WHERE id = :id LIMIT 1");
+    $sth = Di::get()->db()->prepare("UPDATE questions SET answer = :answer WHERE id = :id");
     $sth->execute([
-      ":answer" => $newAnswer,
-      ":id" => $questionId
+        ":answer" => $newAnswer,
+        ":id" => $questionId
     ]);
   }
 
-  // добавить вопрос
+  /**
+   * Add a question
+   * @param $title
+   * @param $categoryId
+   * @param $authorId
+   * @param $content
+   */
   public function addQuestion($title, $categoryId, $authorId, $content)
   {
     $sth = Di::get()->db()->prepare("INSERT INTO questions SET title = :title, category_id = :category_id, author_id = :author_id, content = :content");
     $sth->execute([
-      ":title" => $title,
-      ":category_id" => $categoryId,
-      ":author_id" => $authorId,
-      ":content" => $content
+        ":title" => $title,
+        ":category_id" => $categoryId,
+        ":author_id" => $authorId,
+        ":content" => $content
     ]);
   }
 
-  // удалить вопрос
+  /**
+   * Delete a question
+   * @param $questionId
+   */
   public function deleteQuestion($questionId)
   {
     $sth = Di::get()->db()->prepare("DELETE questions FROM questions WHERE questions.id = :id");
     $sth->execute([':id' => $questionId]);
   }
 
-  // удалить вопрос все вопросы по id категории
-  public function deleteAllQuestionsByIdCategory($categoryId) 
+  /**
+   * Delete question all questions by category id
+   * @param $categoryId
+   */
+  public function deleteAllQuestionsByIdCategory($categoryId)
   {
     $sth = Di::get()->db()->prepare("DELETE questions FROM questions WHERE questions.category_id = :category_id");
     $sth->execute([':category_id' => $categoryId]);
   }
 
-  // опубликовать вопрос
-  public function publish($questionId) 
+  /**
+   * Publish a question
+   * @param $questionId
+   */
+  public function publish($questionId)
   {
-    $sth = Di::get()->db()->prepare("UPDATE questions SET status_id = :status_id WHERE id = :id LIMIT 1");
+    $sth = Di::get()->db()->prepare("UPDATE questions SET status_id = :status_id WHERE id = :id");
     $sth->execute([
-      ":status_id" => 2,
-      ":id" => $questionId
+        ":status_id" => 2,
+        ":id" => $questionId
     ]);
   }
 
-  // скрыть вопрос
+  /**
+   * Hide a question
+   * @param $questionId
+   */
   public function hide($questionId)
   {
     $sth = Di::get()->db()->prepare("UPDATE questions SET status_id = :status_id WHERE id = :id LIMIT 1");
     $sth->execute([
-      ":status_id" => 3,
-      ":id" => $questionId
+        ":status_id" => 3,
+        ":id" => $questionId
     ]);
-  } 
+  }
 }
-?>

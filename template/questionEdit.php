@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Редактировать вопрос</title>
+  <title>Edit question</title>
   <link rel="stylesheet" href="template/css/style.css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,600,700" rel="stylesheet">
 </head>
@@ -14,12 +14,12 @@
     <img src="template/images/admin_logo.png" alt=""/>
     <p class="menuAdmin__admin-name"><?php echo $_SESSION['login'] ?></p>
   </div>
-  <a class="menuAdmin__link" href="index.php?c=admin&a=main">Общее</a>
-  <a class="menuAdmin__link" href="index.php?c=admin&a=adminList">Администраторы</a>
-  <a class="menuAdmin__link" href="index.php?c=admin&a=categoryList">Категории</a>
-  <a class="menuAdmin__link" href="index.php?c=admin&a=questionsWithoutAnswer">Вопросы без ответа</a>
+  <a class="menuAdmin__link" href="index.php?c=admin&a=main">Statistics</a>
+  <a class="menuAdmin__link" href="index.php?c=admin&a=adminList">Administrators</a>
+  <a class="menuAdmin__link" href="index.php?c=admin&a=categoryList">Categories</a>
+  <a class="menuAdmin__link" href="index.php?c=admin&a=questionsWithoutAnswer">Unanswered questions</a>
   <form class="menuAdmin__exit" action="index.php?c=admin&a=logout" method="post">
-    <input class="menuAdmin__exit-button" type="submit" name='logout' value="Выйти">
+    <input class="menuAdmin__exit-button" type="submit" name='logout' value="Sign out">
   </form>
 </section>
 
@@ -29,15 +29,15 @@
   <?php } ?>
 
   <section class="content__item">
-    <h2 class="content__title">Редактирование вопроса:</h2>
+    <h2 class="content__title">Edit question:</h2>
     <div class="content__question">
-      <p class="content__question-item">ID Вопроса: <?php echo $question['id'] ?></p>
-      <p class="content__question-item">Дата и время добавления: <?php echo $question['date_added'] ?></p>
+      <p class="content__question-item">ID: <?php echo $question['id'] ?></p>
+      <p class="content__question-item">Creation date: <?php echo $question['date_added'] ?></p>
 
       <form
           action="index.php?c=admin&a=questionEdit&categoryId=<?php echo $question['category_id'] ?>&questionId=<?php echo $question['id'] ?>"
           method="POST">
-        <span class="content__question-item">Категория:</span>
+        <span class="content__question-item">Category:</span>
         <select class="select" name="newCategory">
           <?php foreach ($categories as $category) { ?>
             <option value="<?php echo $category['id'] ?>"
@@ -45,26 +45,26 @@
           <?php } ?>
         </select>
 
-        <p class="content__question-item">Статус: <?php echo $question['status'] ?></p>
+        <p class="content__question-item">Status: <?php echo $question['status'] ?></p>
 
         <div class="content__question-item">
-          <span>Автор: </span>
+          <span>Author: </span>
           <input type="hidden" name="authorName" value="<?php echo $question['author_name'] ?>"/>
           <input class="input" type="text" name="newAuthorName" value="<?php echo $question['author_name'] ?>"/>
         </div>
 
-        <span class="content__question-item">Заголовок вопроса:</span>
+        <span class="content__question-item">Title:</span>
         <input class="input" type="text" name="newTitle" value="<?php echo $question['title'] ?>"/>
 
-        <p class="content__question-item">Контент вопроса:</p>
+        <p class="content__question-item">Content:</p>
         <textarea name="newContent"><?php echo $question['content'] ?></textarea>
 
-        <p class="content__question-item">Ответ на вопрос:</p>
+        <p class="content__question-item">Answer:</p>
         <textarea name="newAnswer"><?php echo $question['answer'] ?></textarea>
 
         <div class="content__question-item">
-          <input class="button-public" type="submit" name="publish" value="Опубликовать"/>
-          <input class="button-hide" type="submit" name="hide" value="Скрыть"/>
+          <input class="button-public" type="submit" name="publish" value="Publish"/>
+          <input class="button-hide" type="submit" name="hide" value="Hide"/>
         </div>
       </form>
     </div>

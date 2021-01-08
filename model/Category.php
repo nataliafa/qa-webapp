@@ -2,17 +2,22 @@
 
 class Category
 {
-  // возвращает массив категорий
-  public function getCategories() 
+  /**
+   * Returns an array of categories
+   * @return array
+   */
+  public function getCategories(): array
   {
     $sth = Di::get()->db()->prepare("SELECT id, title FROM categories");
     $sth->execute();
-    $result = $sth->fetchAll(PDO::FETCH_ASSOC);
-    return $result;
+    return $sth->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  // возвращает массив категорий с значением вопросов по каждой категории
-  public function getCategoriesCountQuantity()
+  /**
+   * Returns an array of categories with the value of the questions in each category
+   * @return array
+   */
+  public function getCategoriesCountQuantity(): array
   {
     $sql = "
     SELECT
@@ -28,11 +33,14 @@ class Category
     ";
     $sth = Di::get()->db()->prepare($sql);
     $sth->execute();
-    $result = $sth->fetchAll(PDO::FETCH_ASSOC);
-    return $result;
+    return $sth->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  // возвращает имя категории
+  /**
+   * Returns the category name
+   * @param $categoryId
+   * @return mixed
+   */
   public function getName($categoryId)
   {
     $sth = Di::get()->db()->prepare("SELECT title FROM categories WHERE id = :id LIMIT 1");
@@ -41,27 +49,35 @@ class Category
     return $result[0]['title'];
   }
 
-  // возвращает результат проверки существания категория 
-  public function checkCategory($newCategory)
+  /**
+   * Returns the result of a category existence check
+   * @param $newCategory
+   * @return array
+   */
+  public function checkCategory($newCategory): array
   {
     $sth = Di::get()->db()->prepare("SELECT title FROM categories WHERE title = :title LIMIT 1");
     $sth->execute([':title' => $newCategory]);
-    $result = $sth->fetchAll(PDO::FETCH_ASSOC);
-    return $result;
+    return $sth->fetchAll(PDO::FETCH_ASSOC);
   }
-  
-  // добавляет категорию
+
+  /**
+   * Adds a category
+   * @param $newCategory
+   */
   public function addCategory($newCategory)
   {
     $sth = Di::get()->db()->prepare("INSERT INTO categories SET title = :title");
     $sth->execute([':title' => $newCategory]);
   }
-  
-  // удаляет категорию
-  public function deleteCategory($categoryId) 
+
+  /**
+   * Deletes a category
+   * @param $categoryId
+   */
+  public function deleteCategory($categoryId)
   {
     $sth = Di::get()->db()->prepare("DELETE categories FROM  categories WHERE categories.id = :category_id ");
     $sth->execute([':category_id' => $categoryId]);
   }
 }
-?>

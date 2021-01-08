@@ -65,7 +65,7 @@
                               <?php if ($status['status'] === $question['status']) : ?>selected<?php endif ?>><?php echo $status['status'] ?></option>
                     <?php endforeach; ?>
                   </select>
-                  <input class="button-delete-change" type="submit" name="changeStatus" value="Change status"/>
+                  <input class="button-delete-change" type="submit" name="changeStatus" value="Change"/>
                 </form>
               </td>
               <td>
