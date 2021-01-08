@@ -12,7 +12,7 @@
 
 <div class="header__wrapper">
   <header class="header">
-    <img src="template/i/logo.png" height="46" width="46" alt="">
+    <img src="template/images/logo.png" height="46" width="46" alt="">
     <a class="header__link" href="index.php?c=front&a=categories&categoryId=all">Categories</a>
     <a class="header__link" href="index.php?c=front&a=sendQuestion">Ask a question</a>
     <a class="header__link" href="index.php">Sign in as administrator</a>
@@ -41,7 +41,7 @@
 
           <div class="answers__item-tab">
             <div class="answers__item-info">
-              <img src="template/i/user_logo.jpg" alt=""/>
+              <img src="template/images/user_logo.jpg" alt=""/>
               <div class="answers__item-info-container">
                 <p class="answers__item-info-date"><?php echo $item['date_added'] ?></p>
                 <p class="answers__item-info-name"><?php echo $item['author'] ?></p>

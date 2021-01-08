@@ -12,7 +12,7 @@
 
 <section class="menuAdmin">
   <div class="menuAdmin__admin">
-    <img src="template/i/admin_logo.png" alt=""/>
+    <img src="template/images/admin_logo.png" alt=""/>
     <p class="menuAdmin__admin-name"><?php echo $_SESSION['login'] ?></p>
   </div>
   <a class="menuAdmin__link" href="index.php?c=admin&a=main">Statistics</a>
