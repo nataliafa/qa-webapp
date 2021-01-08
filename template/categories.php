@@ -57,7 +57,7 @@
         </div>
       <?php }
     } else { ?>
-      <p>Вопросов нет</p>
+      <p>No questions</p>
     <?php } ?>
   </section>
 

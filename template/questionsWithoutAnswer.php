@@ -82,7 +82,7 @@
           <?php endforeach; ?>
         </table>
       <?php else: ?>
-        <p>Вопросов нет</p>
+        <p>No questions</p>
       <?php endif; ?>
     </div>
   </section>
