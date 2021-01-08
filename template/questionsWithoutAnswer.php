@@ -33,7 +33,7 @@
   <?php } ?>
 
   <section class="content__item">
-    <h2 class="content__title">List of questions without answer:</h2>
+    <h2 class="content__title">List of unanswered questions:</h2>
     <div class="content__container">
       <?php if (count($questions) > 0): ?>
         <table>

@@ -19,9 +19,9 @@ class Category
       c.id,
       c.title,
     COUNT(q.id) as quantity_q,
-    SUM(IIF(q.status_id='2', 1,0)) as published_q,
-    SUM(IIF(q.status_id='1', 1,0)) as waiting_q,
-    SUM(IIF(q.status_id='3', 1,0)) as hidden_q
+    SUM(CASE WHEN q.status_id='2' THEN 1 ELSE 0 END) as published_q,
+    SUM(CASE WHEN q.status_id='1' THEN 1 ELSE 0 END) as waiting_q,
+    SUM(CASE WHEN q.status_id='3' THEN 1 ELSE 0 END) as hidden_q
     FROM categories c
     LEFT JOIN questions q ON q.category_id=c.id
     GROUP BY c.id

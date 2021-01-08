@@ -51,7 +51,7 @@
             <th>Title</th>
             <th style="white-space: nowrap"># Questions</th>
             <th style="white-space: nowrap"># Published</th>
-            <th style="white-space: nowrap"># Without answer</th>
+            <th style="white-space: nowrap"># Unanswered</th>
             <th style="white-space: nowrap"># Hidden</th>
             <th>View all questions</th>
             <th>Delete category and questions</th>
