@@ -1,19 +1,19 @@
 ## QA-WebApp: Featuring PHP, SQL, MVC and HTML5
 
 + A standard question and answer service was developed. The client part of the service and the administrator interface are implemented.
-+ The system is implemented in PHP, MVC architecture is used, components are implemented using OOP, data of administrators, topics, questions and answers are stored in MySQL DBMS.
++ The system is implemented in PHP, MVC architecture is used, components are implemented using OOP, data of administrators, topics, questions and answers are stored in a relational database.
 + [Guest portal](http://begethost7.beget.tech/faq/index.php?c=front&a=categories&categoryId=all)
 + [Administrator portal](http://begethost7.beget.tech/faq/index.php) (username: admin, password: admin)
 
 ### Guest portal
-![Клиентская часть](./resources/clientInt.jpg)
+![Guest portal](./resources/clientInt.jpg)
 
 + Users can browse categories, questions and answers.
 + Any user can ask a question by entering their name, email address, selecting a category and writing the text of the question.
 
 ### Administrator portal
-![Интерфейс администратора 1](./resources/admin_1.jpg)
-![Интерфейс администратора 2](./resources/admin_2.jpg)
+![Administrator portal 1](./resources/admin_1.jpg)
+![Administrator portal 2](./resources/admin_2.jpg)
 + A login and password must be entered to access the administrator interface.
 + By default, a single administrator with username admin and password admin is created.
 + General section: the number of questions in each category, the number of unanswered questions and the number of administrators
