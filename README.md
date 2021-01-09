@@ -1,9 +1,9 @@
 ## QA-WebApp: Featuring PHP, SQL, MVC and HTML5
 
-+ A standard question and answer service was developed. The client part of the service and the administrator interface are implemented.
-+ The system is implemented in PHP, MVC architecture is used, components are implemented using OOP, data of administrators, topics, questions and answers are stored in a relational database.
-+ [Guest portal](http://begethost7.beget.tech/faq/index.php?c=front&a=categories&categoryId=all)
-+ [Administrator portal](http://begethost7.beget.tech/faq/index.php) (username: admin, password: admin)
++ Question and answer web application with guest and administrator portals.
++ The system is implemented in PHP, using MVC architecture, components are implemented using OOP, data is stored in a relational database.
++ [Guest portal](https://natalia-qa-webapp.herokuapp.com/index.php?c=front&a=categories&categoryId=all)
++ [Administrator portal](https://natalia-qa-webapp.herokuapp.com/index.php) (username: admin, password: admin)
 
 ### Guest portal
 ![Guest portal](./resources/clientInt.jpg)
