@@ -23,6 +23,7 @@
 
 ### Installation instructions
 + Clone this repository.
++ Run `composer install`
 + Run using a PHP server.
 
 ### UML diagram of the database
