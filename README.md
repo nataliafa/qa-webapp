@@ -7,7 +7,6 @@
 
 ### Guest portal
 ![Guest portal](./resources/clientInt.jpg)
-
 + Users can browse categories, questions and answers.
 + Any user can ask a question by entering their name, email address, selecting a category and writing the text of the question.
 
@@ -23,10 +22,8 @@
 + Edit question: change the category, author name, question title, question content, answer to the question. Possibility to publish on the website or hide the question
 
 ### Installation instructions
-+ Make a clone of the repository.
-+ Put the contents of the folder on your server.
-+ Load data from dump.sql into the database.
-+ In the config.php file specify database name, login and password.
++ Clone this repository.
++ Run using a PHP server.
 
 ### UML diagram of the database
 ![UML diagram of the database](./resources/uml.jpg)
