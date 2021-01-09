@@ -89,6 +89,7 @@ a {
   margin-right: 10px;
   border: 1px solid #adadad;
   border-radius: 3px;
+  padding: 0 10px 0 10px;
 }
 textarea {
   width: 700px;

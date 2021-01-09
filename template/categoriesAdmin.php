@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Categories</title>
+  <link rel="stylesheet" href="template/css/pure-min.css">
   <link rel="stylesheet" href="template/css/style.css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,600,700" rel="stylesheet">
 </head>
@@ -49,10 +50,10 @@
           <tr>
             <th>ID</th>
             <th>Title</th>
-            <th style="white-space: nowrap"># Questions</th>
-            <th style="white-space: nowrap"># Published</th>
-            <th style="white-space: nowrap"># Unanswered</th>
-            <th style="white-space: nowrap"># Hidden</th>
+            <th>#Questions</th>
+            <th>#Published</th>
+            <th>#Unanswered</th>
+            <th>#Hidden</th>
             <th>View all questions</th>
             <th>Delete category and questions</th>
           </tr>

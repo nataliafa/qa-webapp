@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Edit question</title>
+  <link rel="stylesheet" href="template/css/pure-min.css">
   <link rel="stylesheet" href="template/css/style.css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,600,700" rel="stylesheet">
 </head>
@@ -35,6 +36,7 @@
       <p class="content__question-item">Creation date: <?php echo $question['date_added'] ?></p>
 
       <form
+          class="pure-form pure-form-stacked"
           action="index.php?c=admin&a=questionEdit&categoryId=<?php echo $question['category_id'] ?>&questionId=<?php echo $question['id'] ?>"
           method="POST">
         <span class="content__question-item">Category:</span>

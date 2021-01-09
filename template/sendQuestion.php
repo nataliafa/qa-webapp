@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="template/css/pure-min.css">
   <link rel="stylesheet" href="template/css/style.css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,600,700" rel="stylesheet">
   <title>Ask a question</title>
@@ -28,7 +29,7 @@
   <section>
     <h2 class="content__title">Ask a question</h2>
 
-    <form action="index.php?c=front&a=sendQuestion" method="post">
+    <form class="pure-form pure-form-stacked" action="index.php?c=front&a=sendQuestion" method="post">
       <div class="content__addQuestion-item">
         <span>Name:</span>
         <input class="input" type="text" name="authorName" required/>
