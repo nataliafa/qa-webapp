@@ -1,4 +1,4 @@
-## QA-WebApp: Featuring PHP, MySQL, MVC and HTML5
+## QA-WebApp: Featuring PHP, SQL, MVC and HTML5
 
 + A standard question and answer service was developed. The client part of the service and the administrator interface are implemented.
 + The system is implemented in PHP, MVC architecture is used, components are implemented using OOP, data of administrators, topics, questions and answers are stored in MySQL DBMS.
